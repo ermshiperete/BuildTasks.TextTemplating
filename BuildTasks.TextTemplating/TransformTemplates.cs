@@ -6,6 +6,7 @@ using System.IO;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Mono.TextTemplating;
+using System.CodeDom.Compiler;
 
 namespace BuildTasks.TextTemplating
 {
@@ -47,6 +48,12 @@ namespace BuildTasks.TextTemplating
 				if (generator.Errors.HasErrors)
 				{
 					Log.LogError("Processing '{0}' failed.", TemplatesToProcess[i].ItemSpec);
+					foreach (CompilerError error in generator.Errors)
+					{
+						Log.LogError("{0}({1},{2}): {3} {4}: {5}", Path.GetFileName(error.FileName),
+							error.Line, error.Column, error.IsWarning ? "warning" : "error",
+							error.ErrorNumber, error.ErrorText);
+					}
 					retVal = false;
 				}
 				output.Add(OutputFiles[i]);
