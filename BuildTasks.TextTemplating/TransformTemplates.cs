@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Mono.TextTemplating;
@@ -15,6 +16,7 @@ namespace BuildTasks.TextTemplating
 		public ITaskItem[] TemplatesToProcess { get; set; }
 		public ITaskItem[] OutputFiles { get; set; }
 		public bool MinimalRebuildFromTracking { get; set; }
+        public ITaskItem[] T4ParameterValues { get; set; }
 
 		[Output]
 		public ITaskItem[] GeneratedFiles { get; set; }
@@ -24,8 +26,9 @@ namespace BuildTasks.TextTemplating
 			if (TemplatesToProcess == null || OutputFiles == null)
 				return true;
 
-			var retVal = true;
-			var generator = new TemplateGenerator();
+			var result = true;
+            var generator = new TemplateGeneratorSessionHost();
+            AddT4Parameters(generator);
 			var output = new List<ITaskItem>();
 
 			for (int i = 0; i < Math.Min(TemplatesToProcess.Length, OutputFiles.Length); i++)
@@ -54,12 +57,25 @@ namespace BuildTasks.TextTemplating
 							error.Line, error.Column, error.IsWarning ? "warning" : "error",
 							error.ErrorNumber, error.ErrorText);
 					}
-					retVal = false;
+					result = false;
 				}
 				output.Add(OutputFiles[i]);
 			}
 			GeneratedFiles = output.ToArray();
-			return retVal;
+			return result;
 		}
+
+        private void AddT4Parameters(TemplateGeneratorSessionHost generator)
+        {
+            if (T4ParameterValues == null) return;
+
+            foreach (var item in T4ParameterValues)
+            {
+                var metadataName = item.MetadataNames.OfType<string>().FirstOrDefault();
+                if (metadataName == null) continue;
+                
+                generator.Session[item.ItemSpec] = item.GetMetadata(metadataName);
+            }
+        }
 	}
 }

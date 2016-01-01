@@ -209,7 +209,7 @@
       TemplatesToProcess="@(T4TransformInputs)"
       OutputFiles="@(T4TransformOutputs)"
       MinimalRebuildFromTracking="$(TransformOutOfDateOnly)"
-      >
+      T4ParameterValues="@(T4ParameterValues)">
       <Output ItemName="GeneratedFiles" TaskParameter="GeneratedFiles"/>
     </TransformTemplates>
   </Target>
