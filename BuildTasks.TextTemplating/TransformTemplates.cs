@@ -1,13 +1,12 @@
 ﻿// Copyright (c) 2015 SIL International
 // This software is licensed under the MIT License (http://opensource.org/licenses/MIT)
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
-using Mono.TextTemplating;
-using System.CodeDom.Compiler;
 
 namespace BuildTasks.TextTemplating
 {
@@ -16,7 +15,7 @@ namespace BuildTasks.TextTemplating
 		public ITaskItem[] TemplatesToProcess { get; set; }
 		public ITaskItem[] OutputFiles { get; set; }
 		public bool MinimalRebuildFromTracking { get; set; }
-        public ITaskItem[] T4ParameterValues { get; set; }
+		public ITaskItem[] T4ParameterValues { get; set; }
 
 		[Output]
 		public ITaskItem[] GeneratedFiles { get; set; }
@@ -27,8 +26,8 @@ namespace BuildTasks.TextTemplating
 				return true;
 
 			var result = true;
-            var generator = new TemplateGeneratorSessionHost();
-            AddT4Parameters(generator);
+			var generator = new TemplateGeneratorSessionHost();
+			AddT4Parameters(generator);
 			var output = new List<ITaskItem>();
 
 			for (int i = 0; i < Math.Min(TemplatesToProcess.Length, OutputFiles.Length); i++)
@@ -65,17 +64,19 @@ namespace BuildTasks.TextTemplating
 			return result;
 		}
 
-        private void AddT4Parameters(TemplateGeneratorSessionHost generator)
-        {
-            if (T4ParameterValues == null) return;
+		private void AddT4Parameters(TemplateGeneratorSessionHost generator)
+		{
+			if (T4ParameterValues == null)
+				return;
 
-            foreach (var item in T4ParameterValues)
-            {
-                var metadataName = item.MetadataNames.OfType<string>().FirstOrDefault();
-                if (metadataName == null) continue;
-                
-                generator.Session[item.ItemSpec] = item.GetMetadata(metadataName);
-            }
-        }
+			foreach (var item in T4ParameterValues)
+			{
+				var metadataName = item.MetadataNames.OfType<string>().FirstOrDefault();
+				if (metadataName == null)
+					continue;
+
+				generator.Session[item.ItemSpec] = item.GetMetadata(metadataName);
+			}
+		}
 	}
 }
