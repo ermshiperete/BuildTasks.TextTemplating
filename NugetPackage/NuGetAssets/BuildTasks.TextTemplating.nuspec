@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/ermshiperete/BuildTasks.TextTemplating</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross-platform msbuild/xbuild task for transforming T4 templates.</description>
-    <copyright>Copyright 2015 SIL International</copyright>
+    <copyright>Copyright 2015-2016 SIL International</copyright>
     <tags>msbuild xbuild cross-platform T4</tags>
   </metadata>
 </package>
