@@ -202,7 +202,7 @@
   -->
   <Target Name="ExecuteTransformations" DependsOnTargets="CreateT4ItemLists">
     <ItemGroup>
-      <T4TransformOutputs Include="%(T4TransformInputs.LastGenOutput)"/>
+      <T4TransformOutputs Include="%(T4TransformInputs.RelativeDir)%(T4TransformInputs.LastGenOutput)"/>
     </ItemGroup>
 
     <TransformTemplates
