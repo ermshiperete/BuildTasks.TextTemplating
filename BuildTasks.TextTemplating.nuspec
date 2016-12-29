@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>BuildTasks.TextTemplating.MSBuild14</id>
+    <version>$version$</version>
+    <title>BuildTasks.TextTemplating.MSBuild14</title>
+    <authors>Eberhard Beilharz, Thomas Piart</authors>
+    <owners>Eberhard Beilharz</owners>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>https://github.com/ermshiperete/BuildTasks.TextTemplating</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A cross-platform msbuild/xbuild task for transforming T4 templates. Depends on MSBuild 14.0</description>
+    <copyright>Copyright 2015-2016 SIL International</copyright>
+    <tags>msbuild xbuild cross-platform T4 msbuild14</tags>
+  </metadata>
+  <files>
+    <file src="BuildTasks.TextTemplating\bin\Release\BuildTasks.TextTemplating.dll" target="lib\net45" />
+    <file src="BuildTasks.TextTemplating\bin\Release\BuildTasks.TextTemplating.pdb" target="lib\net45" />
+  </files>
+</package>
